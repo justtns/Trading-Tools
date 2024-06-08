@@ -1,0 +1,11 @@
+{
+    "analysis": {
+      "start_date": "2018-01-01",
+      "end_date": "2024-01-01",
+      "num_stocks": 2
+    },
+    "market_criteria": {
+      "min_market_cap": 200000000,  
+      "min_avg_volume": 1000000   
+    }
+  }
