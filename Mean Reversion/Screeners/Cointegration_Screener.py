@@ -100,21 +100,20 @@ def get_mid_large_cap_stocks(min_market_cap=2e8, min_avg_volume=1e6):
                 stock_data.append(info)
     return pd.DataFrame(stock_data)
 
-def select_random_stocks(n=5, min_market_cap=2e8, min_avg_volume=1e6):
+def select_random_stocks(n, min_market_cap, min_avg_volume):
     stock_df = get_mid_large_cap_stocks(min_market_cap, min_avg_volume)
     return stock_df.sample(n=n)['ticker'].tolist()
 
 def check_and_update_sheet(sheet, combination, sharpe_ratio, max_cumulative_return, portfolio):
     all_records = sheet.get_all_records()
-    combination_str = ','.join(sorted(combination))
+    combination_str = ','.join((combination))
 
     for record in all_records:
-        if sorted(record['Combination'].split(',')) == sorted(combination):
+        if sorted(record['Assets'].split(',')) == sorted(combination):
             print(f"Combination {combination_str} already exists in the sheet.")
             return
-    
-    # If combination doesn't exist, append the new data
-    new_row = [combination_str, portfolio, sharpe_ratio, max_cumulative_return]
+
+    new_row = [combination_str, np.array2string(portfolio), sharpe_ratio, max_cumulative_return]
     sheet.append_row(new_row)
     print(f"Added new combination {combination_str} to the sheet.")
 
@@ -165,12 +164,12 @@ while True:
                     'combo': combo,
                     'sharpe_ratio': sharpe_ratio,
                     'cumulative_returns_strategy': cumulative_returns_strategy,
-                    'cointegrated_portfolio': cointegrated_portfolio,
+                    'portfolio_weights': result.eigen_weight,
                     'max_cumulative_return_asset': max_cumulative_return
                 })
     for result in results:
         combo_str = ','.join(sorted(result['combo']))
-        cointegrated_portfolio = result['cointegrated_portfolio']
+        cointegrated_portfolio = result["portfolio_weights"]
         sharpe_ratio = result['sharpe_ratio']
         max_cumulative_return = result['max_cumulative_return_asset']
         check_and_update_sheet(sheet, result['combo'], sharpe_ratio, max_cumulative_return, cointegrated_portfolio)
