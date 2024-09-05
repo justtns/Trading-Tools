@@ -118,7 +118,7 @@ def check_and_update_sheet(sheet, combination, sharpe_ratio, max_cumulative_retu
     print(f"Added new combination {combination_str} to the sheet.")
 
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = service_account.Credentials.from_service_account_file('credentials.json', scopes = scope)
+creds = service_account.Credentials.from_service_account_file('../credentials.json', scopes = scope)
 client = gspread.authorize(creds)
 spreadsheet = client.open('Cointegration Screener')
 sheet = spreadsheet.sheet1

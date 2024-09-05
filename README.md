@@ -1,2 +1,2 @@
-# Trading-Tools
-Trading tools for self-learning
+# Fin Projects
+Finance-related projects for self-learning
